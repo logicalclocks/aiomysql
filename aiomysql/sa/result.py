@@ -112,10 +112,11 @@ class ResultMetaData:
         # Usage of `getattr` only needed for backward compatibility with
         # older versions of SQLAlchemy.
         typemap = getattr(dialect, 'dbapi_type_map', {})
-
-        assert dialect.case_sensitive, \
-            "Doesn't support case insensitive database connection"
-
+        try:
+            assert dialect.case_sensitive, \
+                "Doesn't support case insensitive database connection"
+        except AttributeError:
+            pass
         # high precedence key values.
         primary_keymap = {}
 
